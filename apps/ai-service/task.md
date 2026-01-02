@@ -1,0 +1,41 @@
+# Project: AI Eye-Tracking SaaS Landing Page
+
+- [x] Research & Planning
+    - [x] Research available Python saliency map libraries/models <!-- id: 0 -->
+    - [x] Define technology stack and architecture <!-- id: 1 -->
+    - [x] Create implementation plan <!-- id: 2 -->
+- [x] Resource Gathering
+    - [x] Create `resources.txt` with necessary data, plugins, and libraries <!-- id: 3 -->
+    - [x] Download/Install available Python packages <!-- id: 4 -->
+    - [x] Document dataset download instructions <!-- id: 5 -->
+- [x] Implementation - Backend
+# Project: AI Eye-Tracking SaaS Landing Page
+
+- [x] Research & Planning
+    - [x] Research available Python saliency map libraries/models <!-- id: 0 -->
+    - [x] Define technology stack and architecture <!-- id: 1 -->
+    - [x] Create implementation plan <!-- id: 2 -->
+- [x] Resource Gathering
+    - [x] Create `resources.txt` with necessary data, plugins, and libraries <!-- id: 3 -->
+    - [x] Download/Install available Python packages <!-- id: 4 -->
+    - [x] Document dataset download instructions <!-- id: 5 -->
+- [x] Implementation - Backend
+    - [x] Setup FastAPI project structure <!-- id: 6 -->
+    - [x] Implement Saliency Map inference service <!-- id: 7 -->
+    - [x] Implement Report Generation logic <!-- id: 8 -->
+- [x] Implementation - Frontend
+    - [x] Design and build Landing Page (HTML/CSS/JS) <!-- id: 9 -->
+    - [x] Integrate with Backend API <!-- id: 10 -->
+    - [x] Fix Header Alignment
+      - [x] Investigate misalignment source (auth.js vs index.html)
+      - [x] Implement CSS fix for vertical alignment
+      - [x] Verify pixel-perfect alignment
+    - [x] Refactor & Redesign Sections
+      - [x] Extract Science Section to dynamic loader
+      - [x] Redesign Science Section (Modern Cards)
+      - [x] Extract Features Section to dynamic loader
+      - [x] Redesign Features Section (Modern Cards)
+      - [x] Update Header Logo
+- [ ] Verification
+    - [ ] Verify Saliency Map output <!-- id: 11 -->
+    - [ ] Verify Report Generation <!-- id: 12 -->

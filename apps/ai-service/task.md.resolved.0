@@ -1,0 +1,20 @@
+# Project: AI Eye-Tracking SaaS Landing Page
+
+- [ ] Research & Planning
+    - [ ] Research available Python saliency map libraries/models <!-- id: 0 -->
+    - [ ] Define technology stack and architecture <!-- id: 1 -->
+    - [ ] Create implementation plan <!-- id: 2 -->
+- [ ] Resource Gathering
+    - [ ] Create `resources.txt` with necessary data, plugins, and libraries <!-- id: 3 -->
+    - [ ] Download/Install available Python packages <!-- id: 4 -->
+    - [ ] Document dataset download instructions <!-- id: 5 -->
+- [ ] Implementation - Backend
+    - [ ] Setup FastAPI project structure <!-- id: 6 -->
+    - [ ] Implement Saliency Map inference service <!-- id: 7 -->
+    - [ ] Implement Report Generation logic <!-- id: 8 -->
+- [ ] Implementation - Frontend
+    - [ ] Design and build Landing Page (HTML/CSS/JS) <!-- id: 9 -->
+    - [ ] Integrate with Backend API <!-- id: 10 -->
+- [ ] Verification
+    - [ ] Verify Saliency Map output <!-- id: 11 -->
+    - [ ] Verify Report Generation <!-- id: 12 -->

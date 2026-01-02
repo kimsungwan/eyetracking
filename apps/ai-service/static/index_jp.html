@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uvolution AI | 予測的アイトラッキング</title>
+    <meta name="description" content="Predict user attention with 96% accuracy using DeepGaze IIE.">
+    <link rel="icon" type="image/png" href="/static/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/fonts/font-awesome-4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/all.css">
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700|Source+Sans+Pro:400,700,400italic,700italic'
+        rel='stylesheet' type='text/css'>
+    <style>
+        /* Custom overrides for Uvolution */
+        .visual {
+            background: #1a1a1a;
+            position: relative;
+        }
+
+        .visual::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+
+        .visual .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .visual h1 {
+            color: #fff;
+        }
+
+        .visual .tagline {
+            color: #a3a3a3;
+        }
+
+        #deepgaze-widget-section {
+            padding: 60px 0;
+            background: #fff;
+        }
+
+        /* SINGLE-LINE HEADER LAYOUT */
+        #header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        #header .logo {
+            flex-shrink: 0;
+        }
+
+        #header .logo a {
+            display: flex;
+            align-items: center;
+        }
+
+        #header #nav {
+            flex-grow: 1;
+            display: flex;
+            justify-content: flex-end;
+            position: static;
+            width: auto;
+        }
+
+        #header #nav .opener-holder {
+            display: none;
+        }
+
+        #header #nav .nav-drop {
+            display: flex !important;
+            align-items: center;
+            position: static;
+            background: none;
+            padding: 0;
+            width: auto;
+        }
+
+        #header #nav .nav-drop>ul {
+            display: flex !important;
+            flex-direction: row;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            align-items: center;
+        }
+
+        #header #nav .nav-drop>ul li {
+            margin: 0 10px;
+        }
+
+        /* Auto-hiding Header Styles */
+        body {
+            padding-top: 80px;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: #fff;
+            transition: top 0.3s ease-in-out;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #header.nav-hidden {
+            top: -100px;
+        }
+
+        /* Social Login Styles */
+        .social-divider {
+            position: relative;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .social-divider:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #e5e5e5;
+            z-index: 1;
+        }
+
+        .social-divider span {
+            background: #fff;
+            padding: 0 10px;
+            position: relative;
+            z-index: 2;
+            color: #848e97;
+            font-size: 14px;
+        }
+
+        .social-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            transition: opacity 0.2s;
+            border: none;
+        }
+
+        .social-btn:hover {
+            opacity: 0.9;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .social-btn i {
+            margin-right: 10px;
+        }
+
+        .btn-google {
+            background-color: #db4437;
+        }
+
+        .btn-kakao {
+            background-color: #ffe812;
+            color: #3c1e1e;
+        }
+
+        .btn-kakao:hover {
+            color: #3c1e1e;
+        }
+
+        .btn-apple {
+            background-color: #000000;
+        }
+
+        .btn-line {
+            background-color: #00c300;
+        }
+
+        /* Language Selector Styles */
+        .language-selector {
+            margin-left: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .language-selector select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: #fff;
+            border: 2px solid #7266BA;
+            border-radius: 25px;
+            padding: 8px 35px 8px 15px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #7266BA;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .language-selector select:hover {
+            background-color: #7266BA;
+            color: #fff;
+        }
+
+        .language-selector::after {
+            content: '▼';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #7266BA;
+            font-size: 10px;
+        }
+
+        .language-selector:hover::after {
+            color: #fff;
+        }
+
+        .language-selector select option {
+            background-color: #fff;
+            color: #333;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <header id="header">
+            <div class="container">
+                <div class="logo">
+                    <a href="#"><img src="/static/images/uvolution_logo_large.png" alt="Uvolution Logo"
+                            style="height: 20px; margin-left: -50px; margin-top: 10px"></a>
+                </div>
+                <nav id="nav">
+                    <div class="opener-holder"><a href="#" class="nav-opener"><span></span></a></div>
+                    <div class="nav-drop">
+                        <ul>
+                            <li class="active visible-sm visible-xs"><a href="#">Home</a></li>
+                            <li><a href="#features">Features</a></li>
+                            <li><a href="#reports">Reports</a></li>
+                            <li><a href="#science">Science</a></li>
+                            <li><a href="#pricing">Pricing</a></li>
+                        </ul>
+                        <ul id="auth-nav"></ul>
+                        <a href="#deepgaze-widget-section" class="btn btn-primary rounded">今すぐ試す</a>
+                        <div class="language-selector">
+                            <select id="languageSelect" onchange="changeLanguage(this.value)">
+                                <option value="en">English</option>
+                                <option value="ko">한국어</option>
+                                <option value="cn">中文</option>
+                                <option value="jp" selected>日本語</option>
+                            </select>
+                        </div>
+                        <div class="drop-holder visible-sm visible-xs">
+                            <span>Follow Us</span>
+                            <ul class="social-networks">
+                                <li><a class="fa fa-github" href="#"></a></li>
+                                <li><a class="fa fa-twitter" href="#"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <section class="visual">
+            <div class="container">
+                <div class="text-block">
+                    <div class="heading-holder">
+                        <h1>Uvolution AI</h1>
+                    </div>
+                    <p class="tagline">96%の精度でユーザーの注意を予測</p>
+                    <span class="info">Powered by DeepGaze IIE & MIT1003 Dataset</span>
+                </div>
+            </div>
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1920&q=80" alt="" class="bg-stretch"
+                style="opacity: 0.3;">
+        </section>
+
+        <!-- Uvolution Widget Section -->
+        <section class="main" id="deepgaze-widget-section">
+            <div class="container">
+                <div class="text-center" style="margin-bottom: 40px;">
+                    <h2>デザインを分析</h2>
+                    <p>UIデザインをアップロードして、すぐに予測ヒートマップを生成します。</p>
+                </div>
+                <div id="deepgaze-widget-container"></div>
+            </div>
+        </section>
+
+        <!-- Features first, then Reports -->
+        <div id="features-placeholder"></div>
+
+        <!-- Report Examples Showcase -->
+        <section class="area" id="reports" style="background: #f8f9fa; padding: 80px 0;">
+            <div class="container">
+                <div class="text-center" style="margin-bottom: 60px;">
+                    <h2 style="color: #635C73; font-size: 3.2rem; margin-bottom: 15px;">Comprehensive Analysis Reports
+                    </h2>
+                    <p style="font-size: 1.8rem; color: #848e97;">Get actionable insights backed by cognitive science
+                        and A/B testing research</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div
+                            style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px;">
+                            <img src="/static/images/report_example_heatmap.png" alt="Eye-Tracking Heatmap"
+                                style="width: 100%; border-radius: 5px; margin-bottom: 15px;">
+                            <h3 style="color: #635C73; font-size: 2rem; margin: 0 0 10px;">Predictive Heatmaps</h3>
+                            <p style="color: #848e97; font-size: 1.4rem; margin: 0;">See exactly where users will look
+                                first. Optimize your layout for maximum attention.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div
+                            style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px;">
+                            <img src="/static/images/report_example_colors.png" alt="Color Psychology"
+                                style="width: 100%; border-radius: 5px; margin-bottom: 15px;">
+                            <h3 style="color: #635C73; font-size: 2rem; margin: 0 0 10px;">Color Psychology</h3>
+                            <p style="color: #848e97; font-size: 1.4rem; margin: 0;">Get CTA color recommendations
+                                proven to increase conversions by up to 34%.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div
+                            style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px;">
+                            <img src="/static/images/report_example_insights.png" alt="Cognitive Insights"
+                                style="width: 100%; border-radius: 5px; margin-bottom: 15px;">
+                            <h3 style="color: #635C73; font-size: 2rem; margin: 0 0 10px;">UX Recommendations</h3>
+                            <p style="color: #848e97; font-size: 1.4rem; margin: 0;">Whitespace analysis, visual
+                                hierarchy, CTA placement, mobile-friendliness, and more.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center" style="margin-top: 30px;">
+                    <a href="#deepgaze-widget-section" class="btn btn-primary rounded"
+                        style="font-size: 1.6rem; padding: 15px 40px;">Try It Now - Free</a>
+                </div>
+            </div>
+        </section>
+
+        <div id="pricing-placeholder"></div>
+        <div id="science-placeholder"></div>
+
+        <section class="visual-container">
+            <div class="visual-area">
+                <div class="container">
+                    <h2>Trusted by Designers</h2>
+                    <ul class="testimonials">
+                        <li>
+                            <div class="img-holder"><a href="#"><img src="/static/images/logo-smashing.png" height="43"
+                                        width="165" alt="smashing magazine"></a></div>
+                            <p><em>"Incredible accuracy. It changed how we approach UI design."</em></p>
+                        </li>
+                        <li>
+                            <div class="img-holder"><a href="#"><img src="/static/images/logo-codrops.png" height="50"
+                                        width="148" alt="codrops"></a></div>
+                            <p><em>"A must-have tool for any UX researcher."</em></p>
+                        </li>
+                        <li>
+                            <div class="img-holder"><a href="#"><img src="/static/images/logo-w.png" height="64"
+                                        width="64" alt="w"></a></div>
+                            <p><em>"Saved us weeks of testing time."</em></p>
+                        </li>
+                    </ul>
+                </div>
+                <img src="/static/images/img-decor-02.jpg" height="764" width="1380" alt="" class="bg-stretch">
+            </div>
+        </section>
+
+        <footer id="footer">
+            <div class="container">
+                <div class="footer-holder">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="logo"><a href="#"
+                                    style="font-size: 20px; font-weight: 700; color: #848e97; text-decoration: none;">Uvolution
+                                    AI</a></div>
+                            <p>Predictive eye tracking for the modern web.<br>Powered by Deep Learning.</p>
+                        </div>
+                        <div class="col-md-2">
+                            <h4>Navigation</h4>
+                            <ul>
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#features">Features</a></li>
+                                <li><a href="#science">Science</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="text-holder">
+                                <h4>Contact</h4>
+                                <p>support@uvolution.ai</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="loginModalLabel">ログイン</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">Email address</label>
+                            <input type="email" class="form-control" id="loginEmail" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" placeholder="Password"
+                                required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Login</button>
+                    </form>
+                    <div class="social-divider"><span>Or login with</span></div>
+                    <button class="social-btn btn-google" data-provider="google"><i class="fa fa-google"></i> Login with
+                        Google</button>
+                    <button class="social-btn btn-kakao" data-provider="kakao"><i class="fa fa-comment"></i> Login with
+                        Kakao</button>
+                    <button class="social-btn btn-apple" data-provider="apple"><i class="fa fa-apple"></i> Login with
+                        Apple</button>
+                    <button class="social-btn btn-line" data-provider="line"><i class="fa fa-comments"></i> Login with
+                        Line</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="signupModalLabel">登録</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="signupForm">
+                        <div class="form-group">
+                            <label for="signupName">Name</label>
+                            <input type="text" class="form-control" id="signupName" placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupEmail">Email address</label>
+                            <input type="email" class="form-control" id="signupEmail" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupPassword">Password</label>
+                            <input type="password" class="form-control" id="signupPassword" placeholder="Password"
+                                required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                    </form>
+                    <div class="social-divider"><span>Or sign up with</span></div>
+                    <button class="social-btn btn-google" data-provider="google"><i class="fa fa-google"></i> Sign up
+                        with Google</button>
+                    <button class="social-btn btn-kakao" data-provider="kakao"><i class="fa fa-comment"></i> Sign up
+                        with Kakao</button>
+                    <button class="social-btn btn-apple" data-provider="apple"><i class="fa fa-apple"></i> Sign up with
+                        Apple</button>
+                    <button class="social-btn btn-line" data-provider="line"><i class="fa fa-comments"></i> Sign up with
+                        Line</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/jquery-1.11.2.min.js"></script>
+    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/jquery.main.js"></script>
+    <script src="/static/report_widget.js"></script>
+    <script src="/static/deepgaze_widget.js"></script>
+    <script src="/static/auth.js?v=2"></script>
+    <script src="/static/features-loader.js"></script>
+    <script src="/static/pricing-loader.js"></script>
+    <script src="/static/science-loader.js"></script>
+    <script>
+        // Language selector function
+        function changeLanguage(lang) {
+            if (lang === 'en') {
+                window.location.href = '/';
+            } else {
+                window.location.href = '/' + lang;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            new DeepGazeWidget('deepgaze-widget-container');
+
+            // Auto-hiding Navigation Logic
+            let lastScrollTop = 0;
+            const header = document.getElementById('header');
+            const scrollThreshold = 10;
+            const mouseThreshold = 50;
+            let isNavigating = false;
+
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+                if (currentScroll <= 0) {
+                    header.classList.remove('nav-hidden');
+                    lastScrollTop = currentScroll;
+                    isNavigating = false;
+                    return;
+                }
+                if (isNavigating) return;
+                if (Math.abs(lastScrollTop - currentScroll) <= scrollThreshold) return;
+
+                if (currentScroll > lastScrollTop) {
+                    header.classList.add('nav-hidden');
+                } else {
+                    header.classList.remove('nav-hidden');
+                }
+                lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (e.clientY <= mouseThreshold) {
+                    header.classList.remove('nav-hidden');
+                }
+            });
+
+            const navLinks = document.querySelectorAll('#nav a[href^="#"]');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const targetId = link.getAttribute('href');
+                    if (targetId === '#' || targetId === '#top') {
+                        isNavigating = false;
+                        header.classList.remove('nav-hidden');
+                        return;
+                    }
+                    isNavigating = true;
+                    header.classList.add('nav-hidden');
+                    setTimeout(() => {
+                        isNavigating = false;
+                        lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    }, 1000);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

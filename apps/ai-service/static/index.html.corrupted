@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uvolution AI | Predictive Eye Tracking</title>
+    <meta name="description" content="Predict user attention with 96% accuracy using DeepGaze IIE.">
+    <link rel="icon" type="image/png" href="/static/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/fonts/font-awesome-4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/all.css">
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700|Source+Sans+Pro:400,700,400italic,700italic'
+        rel='stylesheet' type='text/css'>
+    <style>
+        /* Custom overrides for Uvolution */
+        .visual {
+            background: #1a1a1a;
+        }
+
+        .visual h1 {
+            color: #fff;
+        }
+
+        .visual .tagline {
+            color: #a3a3a3;
+        }
+
+        #deepgaze-widget-section {
+            padding: 60px 0;
+            background: #fff;
+        }
+
+        /* SINGLE-LINE HEADER LAYOUT */
+        #header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        #header .logo {
+            flex-shrink: 0;
+        }
+
+        #header .logo a {
+            display: flex;
+            align-items: center;
+        }
+
+        #header #nav {
+            flex-grow: 1;
+            display: flex;
+            justify-content: flex-end;
+            position: static;
+            width: auto;
+        }
+
+        #header #nav .opener-holder {
+            display: none;
+        }
+
+        #header #nav .nav-drop {
+            display: flex !important;
+            align-items: center;
+            position: static;
+            background: none;
+            padding: 0;
+            width: auto;
+        }
+
+        #header #nav .nav-drop>ul {
+            display: flex !important;
+            flex-direction: row;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            align-items: center;
+        }
+
+        #header #nav .nav-drop>ul li {
+            margin: 0 10px;
+        }
+
+        #header #nav .drop-holder {
+            display: none;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 1023px) {
+            #header .container {
+                display: block;
+            }
+
+            #header #nav .opener-holder {
+                display: block;
+            }
+
+            #header #nav .nav-drop {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <header id="header">
+            <div class="container">
+                <div class="logo">
+                    <a href="#"><img src="/static/images/uvolution_logo_large.png" alt="Uvolution Logo"
+                            style="height: 50px;"></a>
+                </div>
+                <nav id="nav">
+                    <div class="opener-holder"><a href="#" class="nav-opener"><span></span></a></div>
+                    <div class="nav-drop">
+                        <ul>
+                            <li class="active visible-sm visible-xs"><a href="#">Home</a></li>
+                            <li><a href="#features">Features</a></li>
+                            <li><a href="#reports">Reports</a></li>
+                            <li><a href="#science">Science</a></li>
+                        </ul>
+                        <ul id="auth-nav">
+                            <!-- Auth items injected by auth.js -->
+                        </ul>
+                        <a href="#deepgaze-widget-section" class="btn btn-primary rounded">Try It Now</a>
+                        <div class="drop-holder visible-sm visible-xs">
+                            <span>Follow Us</span>
+                            <ul class="social-networks">
+                                <li><a class="fa fa-github" href="#"></a></li>
+                                <p class="tagline">Predict User Attention with 96% Accuracy</p>
+                                <span class="info">Powered by DeepGaze IIE & MIT1003 Dataset</span>
+                        </div>
+                    </div>
+                    <img src="/static/images/img-decor-01.jpg" alt="" class="bg-stretch" style="opacity: 0.4;">
+                    </section>
+
+                    <!-- Uvolution Widget Section -->
+                    <section class="main" id="deepgaze-widget-section">
+                        <div class="container">
+                            <div class="text-center" style="margin-bottom: 40px;">
+                                <h2>Analyze Your Design</h2>
+                                <p>Upload a UI design to generate a predictive heatmap instantly.</p>
+                            </div>
+                            <!-- Widget Container -->
+                            <div id="deepgaze-widget-container"></div>
+                        </div>
+                    </section>
+
+                    <!-- Report Examples Showcase -->
+                    <section class="area" id="reports" style="background: #f8f9fa; padding: 80px 0;">
+                        <div class="container">
+                            <div class="text-center" style="margin-bottom: 60px;">
+                                <h2 style="color: #635C73; font-size: 3.2rem; margin-bottom: 15px;">Comprehensive
+                                    Analysis Reports
+                                </h2>
+                                <p style="font-size: 1.8rem; color: #848e97;">Get actionable insights backed by
+                                    cognitive science
+                                    and A/B testing research</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div
+                                        style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px;">
+                                        <img src="/static/images/report_example_heatmap.png" alt="Eye-Tracking Heatmap"
+                                            style="width: 100%; border-radius: 5px; margin-bottom: 15px;">
+                                        <h3 style="color: #635C73; font-size: 2rem; margin: 0 0 10px;">Predictive
+                                            Heatmaps</h3>
+                                        <p style="color: #848e97; font-size: 1.4rem; margin: 0;">See exactly where users
+                                            will look
+                                            first. Optimize your layout for maximum attention.</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div
+                                        style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px;">
+                                        <img src="/static/images/report_example_colors.png" alt="Color Psychology"
+                                            style="width: 100%; border-radius: 5px; margin-bottom: 15px;">
+                                        <h3 style="color: #635C73; font-size: 2rem; margin: 0 0 10px;">Color Psychology
+                                        </h3>
+                                        <p style="color: #848e97; font-size: 1.4rem; margin: 0;">Get CTA color
+                                            recommendations
+                                            proven to increase conversions by up to 34%.</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div
+                                        style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px;">
+                                        <img src="/static/images/report_example_insights.png" alt="Cognitive Insights"
+                                            style="width: 100%; border-radius: 5px; margin-bottom: 15px;">
+                                        <h3 style="color: #635C73; font-size: 2rem; margin: 0 0 10px;">UX
+                                            Recommendations</h3>
+                                        <p style="color: #848e97; font-size: 1.4rem; margin: 0;">Whitespace analysis,
+                                            visual
+                                            hierarchy, CTA placement, mobile-friendliness, and more.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center" style="margin-top: 30px;">
+                                <a href="#deepgaze-widget-section" class="btn btn-primary rounded"
+                                    style="font-size: 1.6rem; padding: 15px 40px;">Try It Now - Free</a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="area" id="features">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <h2 class="visible-xs visible-sm text-primary">&lt;Why Uvolution?&gt;</h2>
+                                    <ul class="visual-list">
+                                        <li>
+                                            <div class="img-holder"><img src="/static/images/graph-04.svg" width="110"
+                                                    alt=""></div>
+                                            <div class="text-holder">
+                                                <h3>Data-Driven Decisions</h3>
+                                                <p>Stop guessing. Use quantitative metrics like Visual Clutter Scores
+                                                    and Focus
+                                                    Ratios to validate your design choices.</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="img-holder"><img class="pull-left"
+                                                    src="/static/images/graph-03.svg" width="90" alt=""></div>
+                                            <div class="text-holder">
+                                                <h3>Instant Feedback</h3>
+                                                <p>No need to recruit participants or set up expensive labs. Get results
+                                                    in seconds,
+                                                    24/7.</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="img-holder"><img src="/static/images/graph-02.svg" height="84"
+                                                    alt=""></div>
+                                            <div class="text-holder">
+                                                <h3>Cognitive Science</h3>
+                                                <p>Built on the state-of-the-art DeepGaze IIE model, simulating human
+                                                    visual
+                                                    processing and attention mechanisms.</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="img-holder"><img src="/static/images/graph-01.svg" height="71"
+                                                    alt=""></div>
+                                            <div class="text-holder">
+                                                <h3>Actionable Reports</h3>
+                                                <p>Download comprehensive PDF reports with specific, research-backed
+                                                    design
+                                                    recommendations.</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="slide-holder">
+                                        <h2 class="hidden-xs hidden-sm text-primary">&lt;Why Uvolution?&gt;</h2>
+                                        <div class="img-slide scroll-trigger"><img src="/static/images/img-01.png"
+                                                height="624" <div class="img-holder"><a href="#"><img
+                                                    src="/static/images/logo-smashing.png" height="43" width="165"
+                                                    alt="smashing magazine"></a></div>
+                                        <p><em>"Incredible accuracy. It changed how we approach UI design."</em></p>
+                                        </li>
+                                        <li>
+                                            <div class="img-holder"><a href="#"><img
+                                                        src="/static/images/logo-codrops.png" height="50" width="148"
+                                                        alt="codrops"></a></div>
+                                            <p><em>"A must-have tool for any UX researcher."</em></p>
+                                        </li>
+                                        <li>
+                                            <div class="img-holder"><a href="#"><img src="/static/images/logo-w.png"
+                                                        height="64" width="64" alt="w"></a></div>
+                                            <p><em>"Saved us weeks of testing time."</em></p>
+                                        </li>
+                                        </ul>
+                                    </div>
+                                    <img src="/static/images/img-decor-02.jpg" height="764" width="1380" alt=""
+                                        class="bg-stretch">
+                                </div>
+                    </section>
+
+                    <footer id="footer">
+                        <div class="container">
+                            <div class="footer-holder">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="logo"><a href="#"
+                                                style="font-size: 20px; font-weight: 700; color: #848e97; text-decoration: none;">Uvolution
+                                                AI</a></div>
+                                        <p>Predictive eye tracking for the modern web.<br>Powered by Deep Learning.</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <h4>Navigation</h4>
+                                        <ul>
+                                            <li><a href="#">Home</a></li>
+                                            <li><a href="#features">Features</a></li>
+                                            <li><a href="#science">Science</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-holder">
+                                            <h4>Contact</h4>
+                                            <p>support@uvolution.ai</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+            </div>
+
+            <!-- Login Modal -->
+            <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="loginModalLabel">Login</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form id="loginForm">
+                                <div class="form-group">
+                                    <label for="loginEmail">Email address</label>
+                                    <input type="email" class="form-control" id="loginEmail" placeholder="Email"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="loginPassword">Password</label>
+                                    <input type="password" class="form-control" id="loginPassword"
+                                        placeholder="Password" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Signup Modal -->
+            <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="signupModalLabel">Sign Up</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form id="signupForm">
+                                <div class="form-group">
+                                    <label for="signupName">Name</label>
+                                    <input type="text" class="form-control" id="signupName" placeholder="Full Name"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signupEmail">Email address</label>
+                                    <input type="email" class="form-control" id="signupEmail" placeholder="Email"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="signupPassword">Password</label>
+                                    <input type="password" class="form-control" id="signupPassword"
+                                        placeholder="Password" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script src="/static/js/jquery-1.11.2.min.js"></script>
+            <script src="/static/js/bootstrap.js"></script>
+            <script src="/static/js/jquery.main.js"></script>
+            <!-- Uvolution Widgets -->
+            <script src="/static/report_widget.js"></script>
+            <script src="/static/deepgaze_widget.js"></script>
+            <script src="/static/auth.js"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    new DeepGazeWidget('deepgaze-widget-container');
+                });
+            </script>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+# AI Eye-Tracking SaaS Walkthrough
+
+## Overview
+This project provides a complete SaaS landing page and backend for AI-based eye-tracking analysis.
+It uses **FastAPI** for the backend and **OpenCV/PyTorch** for saliency map generation.
+
+## Prerequisites
+- Python 3.8+
+- Required libraries (see [resources.txt](file:///C:/Users/nocti/.gemini/antigravity/brain/3aba68e3-ebfb-4b89-8eac-54ab95fc3d4c/resources.txt))
+
+## Setup & Running
+
+1.  **Install Dependencies**
+    ```bash
+    pip install -r resources.txt
+    # OR manually:
+    pip install fastapi uvicorn python-multipart torch torchvision numpy opencv-python pillow jinja2 scipy matplotlib
+    ```
+
+2.  **Download Resources (Optional)**
+    The system comes with a built-in **Spectral Residual** fallback, so it works out-of-the-box without downloading large weights.
+    To use the Deep Learning model (SAM), place `sam_resnet.pth` in the [weights/](file:///C:/Users/nocti/.gemini/antigravity/brain/3aba68e3-ebfb-4b89-8eac-54ab95fc3d4c/download_resources.py#4-21) folder.
+    ```bash
+    python download_resources.py
+    ```
+
+3.  **Run the Server**
+    ```bash
+    python -m uvicorn main:app --reload
+    ```
+
+4.  **Access the App**
+    Open your browser and navigate to:
+    `http://localhost:8000`
+
+## Features
+- **Drag & Drop Upload**: Easily upload UI designs.
+- **Instant Analysis**: Generates a saliency heatmap showing attention hotspots.
+- **Report Generation**: Downloads a detailed HTML report.
+- **Modern Design**: Responsive, dark-mode inspired UI.
+
+## Troubleshooting
+- If you see `ModuleNotFoundError`, ensure all pip packages are installed.
+- If the heatmap is not generated, check the console for errors. The fallback mode should always work.

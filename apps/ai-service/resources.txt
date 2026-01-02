@@ -1,0 +1,31 @@
+# Required Resources for AI Eye-Tracking SaaS
+
+## Python Libraries
+Run the following command to install all necessary libraries:
+pip install fastapi uvicorn python-multipart torch torchvision numpy opencv-python pillow jinja2 scipy matplotlib
+
+## AI Model (Saliency Map)
+We will use the **SAM (Saliency Attentive Model)** architecture.
+You need to download the pre-trained weights.
+
+**Option 1: SAM-ResNet (Recommended)**
+- Description: ResNet-based model trained on SALICON dataset.
+- Download Link: [Google Drive Link usually provided by authors] (We will attempt to use a public mirror or provide a script)
+- Alternative: We will implement a simplified version or use a compatible PyTorch port.
+
+## Datasets (For Training/Evaluation)
+If you wish to train or evaluate the model yourself, you need the following datasets.
+**Note**: These are NOT required for the SaaS to run if you use pre-trained weights.
+
+1. **SALICON Dataset**
+   - Description: Large-scale dataset for saliency prediction.
+   - Download: http://salicon.net/challenge-2017/
+   - Size: ~3GB
+
+2. **MIT1003**
+   - Description: Eye tracking dataset.
+   - Download: http://people.csail.mit.edu/tjudd/WherePeopleLook/index.html
+
+## Web Assets
+- Fonts: Inter (Google Fonts)
+- Icons: Phosphor Icons or Heroicons (CDN)
