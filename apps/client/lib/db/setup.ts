@@ -20,41 +20,41 @@ function question(query: string): Promise<string> {
   );
 }
 
-async function createStepPayProduct(stepPaySecretKey: string){
-  try{
-    const response = await fetch('https://api.steppay.kr/api/v1/products',{
-      method:'POST',
-      headers:{
+async function createStepPayProduct(stepPaySecretKey: string) {
+  try {
+    const response = await fetch('https://api.steppay.kr/api/v1/products', {
+      method: 'POST',
+      headers: {
         'Content-Type': 'application/json',
-          'Accept': '*/*',
-          'Secret-Token': `${stepPaySecretKey}`,
-        },
-        body: JSON.stringify(
-          {
-            type: "SOFTWARE",
-            status: "SALE",
-            name: "saas",
-            enabledDemo: true,
-            demoPeriod: 7,
-            demoPeriodUnit: "DAY",
-            useWidget: {
-              useDemo: true,
-              useEventBadge: false,
-              useOnetimePurchasable: false,
-              useNotice: false
-            },
-          }
-        )
+        'Accept': '*/*',
+        'Secret-Token': `${stepPaySecretKey}`,
+      },
+      body: JSON.stringify(
+        {
+          type: "SOFTWARE",
+          status: "SALE",
+          name: "saas",
+          enabledDemo: true,
+          demoPeriod: 7,
+          demoPeriodUnit: "DAY",
+          useWidget: {
+            useDemo: true,
+            useEventBadge: false,
+            useOnetimePurchasable: false,
+            useNotice: false
+          },
+        }
+      )
     })
 
-    if(!response.ok){
+    if (!response.ok) {
       console.error(response);
       process.exit(1);
     }
 
     const data = await response.json();
     return data;
-  }catch(error){
+  } catch (error) {
     console.error(error);
     process.exit(1);
   }
@@ -65,12 +65,12 @@ async function createStepPaySubscribePlan(
   productId: string,
   price: number,
   name: string,
-  description:string
-){
-  try{
-    const response = await fetch(`https://api.steppay.kr/api/v1/products/${productId}/prices`,{
-      method:'POST',
-      headers:{
+  description: string
+) {
+  try {
+    const response = await fetch(`https://api.steppay.kr/api/v1/products/${productId}/prices`, {
+      method: 'POST',
+      headers: {
         'Content-Type': 'application/json',
         'Accept': '*/*',
         'Secret-Token': `${stepPaySecretKey}`,
@@ -78,29 +78,29 @@ async function createStepPaySubscribePlan(
       body: JSON.stringify({
         price: price,
         unit: "멤버십",
-        currencyPrice:{
-          "KRW":price
+        currencyPrice: {
+          "KRW": price
         },
         plan: {
           name: name,
           description: description,
         },
-        type:"FLAT",
-        recurring:{
-          "intervalCount":1,
-          "interval":"MONTH"
+        type: "FLAT",
+        recurring: {
+          "intervalCount": 1,
+          "interval": "MONTH"
         }
       }),
     });
 
-    if(!response.ok){
+    if (!response.ok) {
       console.error(response);
       process.exit(1);
     }
 
     const data = await response.json();
     return data;
-  }catch(error){
+  } catch (error) {
     console.error(error);
     process.exit(1);
   }
@@ -190,8 +190,8 @@ async function getStepPaySecretKey(): Promise<string> {
   console.log("Create StepPay Subscribe Plan");
 
   const promises = [];
-  promises.push(createStepPaySubscribePlan(stepPaySecretKey,stepPayProduct.id,8900,"base","unlimited_usage\nunlimited_members\nemail_support"));
-  promises.push(createStepPaySubscribePlan(stepPaySecretKey,stepPayProduct.id,12900,"plus","base_plus\nnew_feature_plus\nCS_plus"));
+  promises.push(createStepPaySubscribePlan(stepPaySecretKey, stepPayProduct.id, 8900, "basic", "unlimited_usage\nunlimited_members\nemail_support"));
+  promises.push(createStepPaySubscribePlan(stepPaySecretKey, stepPayProduct.id, 12900, "pro", "basic_plus\nnew_feature_plus\nCS_plus"));
   await Promise.all(promises);
 
   console.log("StepPay Subscribe Plan Created");

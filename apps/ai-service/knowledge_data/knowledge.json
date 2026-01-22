@@ -1,0 +1,559 @@
+[
+  {
+    "id": "hicks_law",
+    "concept": "Hick's Law",
+    "category": "Cognitive Psychology",
+    "definition": "Imagine walking into an ice cream shop with 50 flavors versus one with just 3. When there are too many options, your brain gets overwhelmed and takes much longer to decide—or you might just walk away. Hick's Law says: keep it simple to help users choose faster.",
+    "image": "/images/docs/hicks-law.webp",
+    "visual_triggers": [
+      "menu_items > 7",
+      "hotspot_count > 10",
+      "clutter_score > 60"
+    ],
+    "actionable_advice": [
+      "Limit top-level navigation to 5-7 items.",
+      "Use 'Progressive Disclosure' for complex forms (show fields only when needed).",
+      "Categorize products to reduce perceived complexity."
+    ],
+    "case_study": "Google's homepage minimizes options to just a search bar, reducing decision time to near zero.",
+    "expected_impact": "High (Conversion Rate, Time-on-Task)"
+  },
+  {
+    "id": "von_restorff_effect",
+    "concept": "Von Restorff Effect (Isolation Effect)",
+    "category": "Cognitive Psychology",
+    "definition": "If you see a basket of red apples and one green apple, which one do you remember? The green one. This is the Isolation Effect. In design, if you want a button to be clicked, it shouldn't blend in—it needs to look different from everything else around it.",
+    "image": "/images/docs/von-restorff-effect.webp",
+    "visual_triggers": [
+      "low contrast cta",
+      "cta blending in",
+      "monotone design"
+    ],
+    "actionable_advice": [
+      "Make the primary CTA a complementary color to the background.",
+      "Increase the size of the most important element by at least 20%.",
+      "Use whitespace to isolate key elements."
+    ],
+    "case_study": "Call-to-Action buttons that contrast with the brand color often see 20-30% higher CTR.",
+    "expected_impact": "High (CTR, Recall)"
+  },
+  {
+    "id": "f_pattern",
+    "concept": "F-Pattern Scanning",
+    "category": "User Behavior",
+    "definition": "When we look at a website full of text, we don't read every word. We scan it like the letter 'F'. We read the top line, scan down a bit, read a shorter line, and then just scroll down the left side. Important stuff must go in this 'F' path, or it gets missed.",
+    "image": "/images/docs/f-pattern.webp",
+    "visual_triggers": [
+      "text heavy",
+      "blog post",
+      "article",
+      "left aligned focus"
+    ],
+    "case_study": "News sites like CNN optimize headlines and lead images to match this natural scanning behavior.",
+    "expected_impact": "Medium (Readability, Engagement)"
+  },
+  {
+    "id": "z_pattern",
+    "concept": "Z-Pattern Scanning",
+    "category": "User Behavior",
+    "definition": "On simpler pages with less text (like a landing page), our eyes naturally move in a 'Z' shape. We start top-left (Logo), go to top-right (Menu), zip down to bottom-left (Value), and end at bottom-right (Call to Action). Design your layout to follow this natural flow.",
+    "image": "/images/docs/z-pattern.webp",
+    "visual_triggers": [
+      "landing page",
+      "hero section",
+      "minimal text"
+    ],
+    "actionable_advice": [
+      "Place the logo top-left.",
+      "Place navigation/login top-right.",
+      "Place the Value Proposition in the center/diagonal.",
+      "Place the primary CTA bottom-right."
+    ],
+    "case_study": "Facebook's login page historically followed a strict Z-pattern to guide users to the sign-up form.",
+    "expected_impact": "High (Conversion Rate)"
+  },
+  {
+    "id": "banner_blindness",
+    "concept": "Banner Blindness",
+    "category": "User Behavior",
+    "definition": "We've learned to ignore anything that looks like an ad. If you put important info in a box that looks like a banner at the top or side of your page, users might look right past it without even realizing. Make your content look like part of the page, not an ad.",
+    "image": "/images/docs/banner-blindness.webp",
+    "visual_triggers": [
+      "skipped hero image",
+      "ignored ad-like element",
+      "top area ignored"
+    ],
+    "actionable_advice": [
+      "Avoid standard banner dimensions (e.g., 728x90).",
+      "Integrate important messages into the native content flow.",
+      "Use relevant, high-quality imagery instead of generic stock photos."
+    ],
+    "case_study": "Native advertising often outperforms display advertising because it mimics the form and function of the platform.",
+    "expected_impact": "Medium (Engagement, CTR)"
+  },
+  {
+    "id": "gestalt_proximity",
+    "concept": "Gestalt Principle of Proximity",
+    "category": "Visual Perception",
+    "definition": "Our brains assume that things close to each other are related. If a photo and a caption are far apart, we get confused. If they are close, we know they belong together. Use whitespace to group related items so users instantly know what goes with what.",
+    "image": "/images/docs/gestalt-proximity.webp",
+    "visual_triggers": [
+      "unrelated items close together",
+      "confusing grouping",
+      "cluttered layout"
+    ],
+    "actionable_advice": [
+      "Group related form fields together (e.g., shipping address vs. billing address).",
+      "Use whitespace to separate distinct sections.",
+      "Ensure captions are closer to their images than to the text below."
+    ],
+    "case_study": "Apple's product pages use extreme proximity and whitespace to clearly delineate features.",
+    "expected_impact": "Medium (Clarity, Usability)"
+  },
+  {
+    "id": "gestalt_similarity",
+    "concept": "Gestalt Principle of Similarity",
+    "category": "Visual Perception",
+    "definition": "Things that look alike are perceived as having the same function. If all your clickable buttons are blue rectangles, and suddenly you use a blue rectangle for a non-clickable heading, users will try to click it. Consistency helps users learn your interface instantly.",
+    "image": "/images/docs/gestalt-similarity.webp",
+    "visual_triggers": [
+      "inconsistent styling",
+      "confusing buttons",
+      "lack of consistency"
+    ],
+    "actionable_advice": [
+      "Use the same color and style for all primary actions.",
+      "Ensure clickable links look distinct from static text.",
+      "Use consistent iconography styles."
+    ],
+    "case_study": "Google's Material Design relies heavily on similarity to create a cohesive experience across apps.",
+    "expected_impact": "Medium (Learnability)"
+  },
+  {
+    "id": "serial_position_effect",
+    "concept": "Serial Position Effect",
+    "category": "Cognitive Psychology",
+    "definition": "People have a terrible memory for the middle of a list. We tend to remember the first thing we saw (Primacy Effect) and the last thing we saw (Recency Effect). If you have a list of features or a menu, put the most critical items at the very start and the very end.",
+    "image": "/images/docs/serial-position-effect.webp",
+    "visual_triggers": [
+      "long list",
+      "menu items",
+      "middle items ignored"
+    ],
+    "actionable_advice": [
+      "Place the most important menu items at the beginning (Home) and end (Contact/CTA).",
+      "In pricing tables, place the recommended plan first or last (or highlight it).",
+      "Put key benefits at the start and end of bullet lists."
+    ],
+    "case_study": "Restaurant menus often place high-margin items at the top and bottom of sections.",
+    "expected_impact": "Medium (Recall, CTR)"
+  },
+  {
+    "id": "anchoring_effect",
+    "concept": "Anchoring Effect",
+    "category": "Behavioral Economics",
+    "definition": "The first number we see sets the standard for everything else. If you see a $1000 watch first, a $200 watch suddenly seems cheap. But if you saw a $50 watch first, $200 seems expensive. Show a higher 'original price' or a premium option first to make your standard price feel like a bargain.",
+    "image": "/images/docs/anchoring-effect.webp",
+    "visual_triggers": [
+      "pricing page",
+      "discount display",
+      "sale price"
+    ],
+    "actionable_advice": [
+      "Display the original higher price (crossed out) next to the sale price.",
+      "Show the most expensive plan first to make subsequent plans seem cheaper.",
+      "State the total value of a bundle before showing the discounted price."
+    ],
+    "case_study": "Steve Jobs introduced the iPad price by anchoring $999 before revealing the actual $499 price.",
+    "expected_impact": "High (Revenue, Conversion)"
+  },
+  {
+    "id": "decoy_effect",
+    "concept": "Decoy Effect",
+    "category": "Behavioral Economics",
+    "definition": "Sometimes we can't decide between A and B. But if you add a third option C (the Decoy) that is clearly worse than B but similar in price, suddenly B looks like a fantastic deal. It's a way to nudge users toward the option you actually want them to pick.",
+    "image": "/images/docs/decoy-effect.webp",
+    "visual_triggers": [
+      "pricing table",
+      "subscription plans",
+      "product comparison"
+    ],
+    "actionable_advice": [
+      "Add a 'decoy' option that is slightly worse than the target option but similar in price.",
+      "Example: Small Popcorn $3, Medium $6.50, Large $7. The Medium is the decoy to sell the Large.",
+      "Use this to steer users toward the highest-margin plan."
+    ],
+    "case_study": "The Economist subscription model famous case study: Web-only $59, Print-only $125, Web+Print $125.",
+    "expected_impact": "High (AOV - Average Order Value)"
+  },
+  {
+    "id": "loss_aversion",
+    "concept": "Loss Aversion",
+    "category": "Behavioral Economics",
+    "definition": "We hate losing things twice as much as we love gaining them. Telling a user 'You'll save $10' is okay, but telling them 'Don't lose your $10 discount' is much more powerful. Frame your offers so users feel like they already have something valuable that they might lose.",
+    "image": "/images/docs/loss-aversion.webp",
+    "visual_triggers": [
+      "cart abandonment",
+      "trial expiration",
+      "limited stock"
+    ],
+    "actionable_advice": [
+      "Frame messages as avoiding loss: 'Don't miss out' instead of 'Get this'.",
+      "Use countdown timers for cart reservation.",
+      "Highlight what users lose if they don't upgrade (e.g., 'You will lose access to premium features')."
+    ],
+    "case_study": "Amazon's 'Lightning Deals' leverage loss aversion with time limits.",
+    "expected_impact": "High (Conversion, Retention)"
+  },
+  {
+    "id": "social_proof",
+    "concept": "Social Proof",
+    "category": "Social Psychology",
+    "definition": "When we are unsure what to do, we look at what others are doing. If a restaurant is empty, we hesitate. If there's a line, we assume it's good. On your site, show reviews, testimonials, and 'number of users' to prove that others trust you.",
+    "visual_triggers": [
+      "testimonials",
+      "reviews",
+      "logos",
+      "trust badges"
+    ],
+    "actionable_advice": [
+      "Display real customer reviews and ratings prominently.",
+      "Show 'X people are viewing this right now' notifications.",
+      "Display logos of well-known client companies."
+    ],
+    "case_study": "Booking.com uses '15 people are looking at this hotel' to drive urgency and trust.",
+    "expected_impact": "High (Trust, Conversion)"
+  },
+  {
+    "id": "scarcity_principle",
+    "concept": "Scarcity Principle",
+    "category": "Social Psychology",
+    "definition": "We want what we can't have. If something is rare or running out, it suddenly becomes more valuable to us. 'Only 2 left in stock' or 'Sale ends in 1 hour' triggers a fear of missing out (FOMO) and pushes users to act immediately instead of waiting.",
+    "visual_triggers": [
+      "limited time",
+      "limited stock",
+      "countdown timer"
+    ],
+    "actionable_advice": [
+      "Show 'Only 3 left in stock'.",
+      "Use 'Offer ends in 24 hours'.",
+      "Limit access to a beta feature to create exclusivity."
+    ],
+    "case_study": "Supreme's entire business model is built on artificial scarcity.",
+    "expected_impact": "High (Urgency, Conversion)"
+  },
+  {
+    "id": "paradox_of_choice",
+    "concept": "Paradox of Choice",
+    "category": "Behavioral Economics",
+    "definition": "We think we want lots of choices, but actually, too many choices make us anxious and paralyzed. If you offer 20 different plans, users might choose none because they're afraid of picking the wrong one. Curate the best options for them to make choosing easy.",
+    "image": "/images/docs/paradox-of-choice.webp",
+    "visual_triggers": [
+      "too many filters",
+      "mega menu",
+      "endless scroll"
+    ],
+    "actionable_advice": [
+      "Curate 'Best Sellers' or 'Staff Picks'.",
+      "Limit the number of recommended products to 3-4.",
+      "Use smart defaults so users don't have to choose every setting."
+    ],
+    "case_study": "Jam Study: Displaying 6 jams resulted in 10x more sales than displaying 24 jams.",
+    "expected_impact": "High (Conversion)"
+  },
+  {
+    "id": "zeigarnik_effect",
+    "concept": "Zeigarnik Effect",
+    "category": "Cognitive Psychology",
+    "definition": "Our brains hate unfinished business. We remember incomplete tasks much better than finished ones. That's why a progress bar showing '70% Complete' is so annoying—it urges us to finish it. Use this to motivate users to complete their profiles or checkout.",
+    "visual_triggers": [
+      "progress bar",
+      "onboarding checklist",
+      "gamification"
+    ],
+    "actionable_advice": [
+      "Show a progress bar that is partially filled (e.g., 'Profile 70% complete').",
+      "Break long forms into steps and show progress.",
+      "Use checklists for onboarding."
+    ],
+    "case_study": "LinkedIn's 'Profile Strength' meter encourages users to fill out more data.",
+    "expected_impact": "High (Completion Rate, Engagement)"
+  },
+  {
+    "id": "peak_end_rule",
+    "concept": "Peak-End Rule",
+    "category": "Cognitive Psychology",
+    "definition": "People don't remember an entire experience; they remember the most intense moment (the Peak) and the End. Even if a process was annoying, a delightful ending (like a funny success message or confetti) can leave the user with a positive memory.",
+    "visual_triggers": [
+      "checkout success",
+      "error page",
+      "confirmation screen"
+    ],
+    "actionable_advice": [
+      "Make the checkout success page delightful (confetti, humor, discount code).",
+      "Ensure the 'Peak' moment (e.g., finding the product) is frictionless.",
+      "Turn error pages into helpful or funny moments to mitigate negative peaks."
+    ],
+    "case_study": "Mailchimp's 'High Five' animation after sending a campaign creates a positive end to a stressful task.",
+    "expected_impact": "High (NPS, Retention)"
+  },
+  {
+    "id": "color_psychology_blue",
+    "concept": "Color Psychology (Blue)",
+    "category": "Color Psychology",
+    "definition": "Blue is the color of trust, logic, and calm. It's why almost every bank, tech company, and hospital uses it. It says 'We are reliable and secure.' However, it's not great for food apps because blue rarely occurs in natural food and suppresses appetite.",
+    "visual_triggers": [
+      "finance",
+      "tech",
+      "medical",
+      "blue dominant"
+    ],
+    "actionable_advice": [
+      "Use blue for 'Trust' elements (guarantees, security badges).",
+      "Ideal for B2B, Fintech, and Healthcare primary branding.",
+      "Avoid for food apps (suppresses appetite)."
+    ],
+    "case_study": "PayPal, Chase, and Facebook all use blue to convey reliability.",
+    "expected_impact": "Medium (Brand Perception)"
+  },
+  {
+    "id": "color_psychology_red",
+    "concept": "Color Psychology (Red)",
+    "category": "Color Psychology",
+    "definition": "Red is the body's 'Stop' and 'Go' signal. It raises heart rate and creates urgency. Use it for 'Buy Now' buttons or clearance sales to get attention fast. But be careful—too much red can feel like a warning sign or an error message.",
+    "visual_triggers": [
+      "sale",
+      "clearance",
+      "error",
+      "cta",
+      "red dominant"
+    ],
+    "actionable_advice": [
+      "Use for 'Urgent' actions (Buy Now, Sale Ends Soon).",
+      "Use for error messages.",
+      "Use for food apps to stimulate appetite."
+    ],
+    "case_study": "Netflix, Coca-Cola, and Target use red to create excitement and energy.",
+    "expected_impact": "High (Attention, CTR)"
+  },
+  {
+    "id": "color_psychology_green",
+    "concept": "Color Psychology (Green)",
+    "category": "Color Psychology",
+    "definition": "Green means 'Go', 'Good', and 'Growth'. It's the easiest color for our eyes to process, so it feels relaxing. It's perfect for success messages, financial growth, or eco-friendly products. It tells the user 'You are doing the right thing.'",
+    "visual_triggers": [
+      "eco-friendly",
+      "finance",
+      "health",
+      "success",
+      "green dominant"
+    ],
+    "actionable_advice": [
+      "Use for 'Success' states and 'Go' actions.",
+      "Ideal for environmental, health, and wealth management apps.",
+      "Use to reduce cognitive strain."
+    ],
+    "case_study": "Whole Foods and Android use green to signal freshness and openness.",
+    "expected_impact": "Medium (User Comfort)"
+  },
+  {
+    "id": "law_of_common_region",
+    "concept": "Law of Common Region",
+    "category": "Visual Perception",
+    "definition": "If you put a border around some items or give them a different background color, our brains instantly see them as a separate group. This is great for separating a sidebar from the main content or grouping a product image with its price and button.",
+    "visual_triggers": [
+      "cards",
+      "sections",
+      "borders",
+      "background colors"
+    ],
+    "actionable_advice": [
+      "Place related content inside a card or a container with a background color.",
+      "Use borders to define distinct functional areas.",
+      "Use this to separate the sidebar from the main content."
+    ],
+    "case_study": "Pinterest's card-based layout is a classic example of Common Region.",
+    "expected_impact": "Medium (Organization, Clarity)"
+  },
+  {
+    "id": "aesthetic_usability_effect",
+    "concept": "Aesthetic-Usability Effect",
+    "category": "Design Psychology",
+    "definition": "We tend to believe that beautiful things work better. If your site looks polished and professional, users will be more patient with minor bugs and trust you more. If it looks ugly or broken, they'll assume your service is broken too, even if it works perfectly.",
+    "visual_triggers": [
+      "beautiful ui",
+      "modern design",
+      "high quality images"
+    ],
+    "actionable_advice": [
+      "Invest in high-quality visual assets and typography.",
+      "Ensure consistent spacing and alignment.",
+      "A polished look builds trust and forgiveness for minor usability issues."
+    ],
+    "case_study": "Apple products are often perceived as easier to use partly because they look beautiful.",
+    "expected_impact": "High (Trust, Satisfaction)"
+  },
+  {
+    "id": "goal_gradient_effect",
+    "concept": "Goal Gradient Effect",
+    "category": "Behavioral Economics",
+    "definition": "The closer we get to a goal, the faster we run. If you give users a 'head start'—like a coffee card with 2 stamps already stamped—they are much more likely to finish it than if they start from zero. Show them they are already making progress.",
+    "visual_triggers": [
+      "progress bar",
+      "loyalty program",
+      "steps left"
+    ],
+    "actionable_advice": [
+      "Visually show users they are close to the finish line.",
+      "Give a 'head start' (e.g., a punch card with 2 stamps already filled).",
+      "Use 'Almost there!' messaging."
+    ],
+    "case_study": "Coffee shops giving a stamp card with free stamps to start increases retention.",
+    "expected_impact": "High (Conversion, Retention)"
+  },
+  {
+    "id": "priming",
+    "concept": "Priming",
+    "category": "Cognitive Psychology",
+    "definition": "You can plant an idea in a user's head before they even get to the main task. If you show images of safety locks and use words like 'Secure', they will feel safer entering their credit card later. You are setting the emotional stage for their actions.",
+    "visual_triggers": [
+      "hero image",
+      "iconography",
+      "microcopy"
+    ],
+    "actionable_advice": [
+      "Use images of happy people using the product to prime positive emotions.",
+      "Use words like 'Secure', 'Safe', 'Protected' near credit card fields.",
+      "Prime the user for the price by showing the value first."
+    ],
+    "case_study": "Websites showing padlocks and security badges prime users to feel safe entering data.",
+    "expected_impact": "Medium (Trust, Conversion)"
+  },
+  {
+    "id": "cognitive_load",
+    "concept": "Cognitive Load Theory",
+    "category": "Cognitive Psychology",
+    "definition": "Your brain is like a computer with limited RAM. Every button, image, and word uses up some of that RAM. If you overload it with too much clutter, the system freezes—meaning the user gets frustrated and leaves. Keep it simple to keep their brain running smoothly.",
+    "visual_triggers": [
+      "clutter",
+      "text walls",
+      "complex navigation"
+    ],
+    "actionable_advice": [
+      "Remove unnecessary elements (distractions).",
+      "Use familiar patterns (Jakob's Law).",
+      "Break tasks into chunks.",
+      "Use visual cues instead of text where possible."
+    ],
+    "case_study": "Google's homepage is the ultimate example of minimizing cognitive load.",
+    "expected_impact": "High (Usability, Time-on-Task)"
+  },
+  {
+    "id": "jakobs_law",
+    "concept": "Jakob's Law",
+    "category": "UX Law",
+    "definition": "Users spend 99% of their time on OTHER websites, not yours. They expect your site to work like the ones they already know (like Amazon or Google). If you get too creative with standard things like navigation or shopping carts, you'll just confuse them.",
+    "visual_triggers": [
+      "unconventional nav",
+      "weird icons",
+      "confusing layout"
+    ],
+    "actionable_advice": [
+      "Follow standard design conventions (e.g., logo top-left, cart top-right).",
+      "Don't reinvent the wheel for common patterns like login or search.",
+      "Use standard icons (magnifying glass for search, hamburger for menu)."
+    ],
+    "case_study": "Snapchat's unique UI confused older users because it broke Jakob's Law, limiting its demographic.",
+    "expected_impact": "High (Usability, Adoption)"
+  },
+  {
+    "id": "parkinsons_law",
+    "concept": "Parkinson's Law",
+    "category": "Productivity",
+    "definition": "Work expands to fill the time available. If you give a user 10 minutes to fill a form, they'll take 10 minutes (or get distracted). If you give them a 2-minute timer, they'll focus and finish it fast. Use urgency to help users stop procrastinating.",
+    "visual_triggers": [
+      "forms",
+      "checkout process",
+      "timers"
+    ],
+    "actionable_advice": [
+      "Reduce the time allowed to complete a task to increase focus.",
+      "Auto-fill forms to reduce perceived effort.",
+      "Streamline the checkout process to minimize drop-off."
+    ],
+    "case_study": "Ticketmaster holds your tickets for a limited time, forcing a decision.",
+    "expected_impact": "Medium (Conversion)"
+  },
+  {
+    "id": "pareto_principle",
+    "concept": "Pareto Principle (80/20 Rule)",
+    "category": "General",
+    "definition": "80% of your results come from 20% of your efforts. In app design, 80% of users only use 20% of the features. Don't clutter your interface trying to show everything equally. Highlight the critical 20% that everyone actually wants to use.",
+    "visual_triggers": [
+      "feature bloat",
+      "complex menu",
+      "analytics"
+    ],
+    "actionable_advice": [
+      "Focus on the 20% of features that 80% of users use.",
+      "Highlight the most popular products.",
+      "Optimize the critical path (the 20% of pages that drive 80% of traffic)."
+    ],
+    "case_study": "Microsoft found that fixing the top 20% of bugs solved 80% of user crashes.",
+    "expected_impact": "High (Efficiency, Satisfaction)"
+  },
+  {
+    "id": "reciprocity",
+    "concept": "Reciprocity",
+    "category": "Social Psychology",
+    "definition": "If you do something nice for someone, they feel a natural urge to do something nice back. If you give users a free helpful guide or tool without asking for anything first, they are much more likely to trust you and buy from you later.",
+    "visual_triggers": [
+      "lead magnet",
+      "free ebook",
+      "free trial"
+    ],
+    "actionable_advice": [
+      "Give value first (free guide, tool, consultation) before asking for a sale.",
+      "Offer a free trial without credit card.",
+      "Provide helpful content in your blog."
+    ],
+    "case_study": "Dropbox's referral program gave free space to both parties, leveraging reciprocity.",
+    "expected_impact": "High (Acquisition)"
+  },
+  {
+    "id": "authority_bias",
+    "concept": "Authority Bias",
+    "category": "Social Psychology",
+    "definition": "We trust experts. If a doctor says a toothpaste is good, we believe it. If your website shows badges from known media outlets, awards, or endorsements from industry leaders, users will automatically assume your product is high quality.",
+    "visual_triggers": [
+      "expert endorsement",
+      "certifications",
+      "media logos"
+    ],
+    "actionable_advice": [
+      "Show endorsements from industry experts.",
+      "Display certifications and awards.",
+      "Use 'As seen on' media logos."
+    ],
+    "case_study": "Toothpaste brands always use 'Recommended by Dentists'.",
+    "expected_impact": "Medium (Trust)"
+  },
+  {
+    "id": "framing_effect",
+    "concept": "Framing Effect",
+    "category": "Behavioral Economics",
+    "definition": "It's not what you say, it's how you say it. '95% Fat Free' sounds healthy. '5% Fat' sounds unhealthy. They are the same thing! Frame your product's features in a way that highlights the positive gain rather than the negative cost.",
+    "visual_triggers": [
+      "pricing",
+      "copywriting",
+      "value prop"
+    ],
+    "actionable_advice": [
+      "Frame price as 'less than a cup of coffee per day'.",
+      "Highlight '99% Success Rate' instead of '1% Failure Rate'.",
+      "Focus on the benefits (gain) rather than the features."
+    ],
+    "case_study": "Yogurt labeled '95% Fat Free' sells better than '5% Fat'.",
+    "expected_impact": "High (Perception, Conversion)"
+  }
+]

@@ -19,7 +19,7 @@ export function withLngMiddleware(middleware: CustomMiddleware): CustomMiddlewar
 
     // 언어 설정
     let lng;
-    if (request.cookies.has(cookieName)) 
+    if (request.cookies.has(cookieName))
       lng = acceptLanguage.get(request.cookies.get(cookieName)?.value || fallbackLng);
     if (!lng) lng = acceptLanguage.get(request.headers.get('Accept-Language'));
     if (!lng) lng = fallbackLng;
@@ -27,7 +27,9 @@ export function withLngMiddleware(middleware: CustomMiddleware): CustomMiddlewar
     // Redirect if lng in path is not supported
     if (
       !languages.some(loc => request.nextUrl.pathname.startsWith(`/${loc}`)) &&
-      !request.nextUrl.pathname.startsWith('/_next')
+      !request.nextUrl.pathname.startsWith('/_next') &&
+      !request.nextUrl.pathname.startsWith('/images') &&
+      !request.nextUrl.pathname.startsWith('/favicon.ico')
     ) {
       console.log('redirecting to', `/${lng}${request.nextUrl.pathname}${request.nextUrl.search}`);
       res.cookies.set(cookieName, lng);
@@ -35,7 +37,7 @@ export function withLngMiddleware(middleware: CustomMiddleware): CustomMiddlewar
         new URL(`/${lng}${request.nextUrl.pathname}${request.nextUrl.search}`, request.url)
       );
     }
-    
+
     if (request.headers.has('referer')) {
       const refererUrl = new URL(request.headers.get('referer') || '');
       const lngInReferer = languages.find((l) => refererUrl.pathname.startsWith(`/${l}`));

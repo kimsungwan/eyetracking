@@ -61,11 +61,11 @@ def calculate_metrics(saliency_map_path, original_image_path):
     hotspot_count = len(hotspots)
     
     return {
-        "clutter_score": round(clutter_final, 1),
-        "focus_ratio": round(focus_ratio, 1),
-        "hotspot_count": hotspot_count,
-        "edge_density": round(edge_density * 100, 2),
-        "color_entropy": round(color_entropy, 2)
+        "clutter_score": float(round(clutter_final, 1)),
+        "focus_ratio": float(round(focus_ratio, 1)),
+        "hotspot_count": int(hotspot_count),
+        "edge_density": float(round(edge_density * 100, 2)),
+        "color_entropy": float(round(color_entropy, 2))
     }
 
 def calculate_advanced_metrics(saliency_map_path, original_image_path, basic_metrics, cognitive_data):
@@ -87,9 +87,9 @@ def calculate_advanced_metrics(saliency_map_path, original_image_path, basic_met
     cle = ((100 - whitespace_ratio) * 0.6) + (vci * 0.4)
     
     return {
-        "acs": round(acs, 1),
-        "vci": round(vci, 1),
-        "cle": round(cle, 1)
+        "acs": float(round(acs, 1)),
+        "vci": float(round(vci, 1)),
+        "cle": float(round(cle, 1))
     }
 
 def analyze_dominant_colors(image_path):
@@ -193,11 +193,16 @@ def analyze_dominant_colors(image_path):
         "palette_summary": palette_summary
     }
 
-def generate_report(original_image_path, saliency_map_path, timestamp=None):
+def generate_report(original_image_path, saliency_map_path, timestamp=None, plan="free"):
     """
     Generates a comprehensive 5+ page HTML report with deep-dive analysis.
     """
     report_dir = "reports"
+    
+    # Initialize AI variables to None (prevent NameError if API key is missing)
+    ia_structure = None
+    redesign_suggestion = None
+    marketing_consultation = None
     os.makedirs(report_dir, exist_ok=True)
     
     # Extract filename from path
@@ -258,6 +263,36 @@ def generate_report(original_image_path, saliency_map_path, timestamp=None):
     
     action_plan = get_strategic_action_plan(metrics, adv_metrics, cognitive_data)
     
+    # --- AI ENHANCEMENTS (IA & Generative UI) ---
+    # Only run for paid plans
+    if plan in ["base", "plus"]:
+        try:
+            from generative_ui import analyze_ia_structure, generate_redesigned_ui
+            print(f"Starting AI Analysis (Plan: {plan})...")
+            ia_structure = analyze_ia_structure(original_image_path)
+            
+            # Create a summary for the redesign prompt
+            analysis_summary = f"Focus Ratio: {metrics['focus_ratio']}%, Visual Clutter: {metrics['clutter_score']}, Hotspots: {metrics['hotspot_count']}. Key issue: {visual_text.get('focus_analysis', 'Attention dispersed')}."
+            
+            redesign_suggestion = generate_redesigned_ui(original_image_path, saliency_map_path, analysis_summary)
+            print("AI Analysis complete.")
+        except Exception as e:
+            print(f"AI Analysis failed: {e}")
+            ia_structure = None
+            redesign_suggestion = None
+
+        # --- MARKETING CONSULTATION (RAG) ---
+        try:
+            from consultant import generate_marketing_consultation
+            print(f"Starting Marketing Consultation (Plan: {plan})...")
+            marketing_consultation = generate_marketing_consultation(original_image_path, saliency_map_path)
+            print("Marketing Consultation complete.")
+        except Exception as e:
+            print(f"Marketing Consultation failed: {e}")
+            marketing_consultation = None
+    else:
+        print(f"Skipping AI Analysis for plan: {plan}")
+
     # COMPREHENSIVE 5+ PAGE HTML TEMPLATE
     template_str = """
     <!DOCTYPE html>
@@ -951,14 +986,267 @@ def generate_report(original_image_path, saliency_map_path, timestamp=None):
                 2. Rosenholtz, R. et al. (2007). Measuring visual clutter. Journal of Vision.<br>
                 3. Nielsen, J. (2006). F-Shaped Pattern For Reading Web Content.<br>
                 4. Miller, G. A. (1956). The magical number seven, plus or minus two.<br>
+```
+                    </div>
+                    <p style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 1.5rem;">
+                        {{ cognitive_data.saliency_distribution.pattern if cognitive_data else 'Balanced Flow' }}
+                    </p>
+                </div>
+            </div>
+            
+            <div class="page-number">Page 3</div>
+        </div>
+
+        <!-- PAGE 4: COLOR PSYCHOLOGY, ACCESSIBILITY & MARKETING (REVAMPED) -->
+        <div class="page">
+            <div class="header-strip"></div>
+            <h2>Color Psychology, Accessibility & Marketing Influence</h2>
+            <p>Comprehensive analysis of the color palette's impact on user behavior, emotional response, and accessibility compliance.</p>
+            
+            {% if color_data %}
+            
+            <!-- Color Dashboard Section with Overflow-Safe Container -->
+            <section class="color-dashboard-section">
+                {% for color in color_data.dominant_colors %}
+                <div class="color-row">
+                    <!-- Swatch Panel -->
+                    <div class="color-swatch-panel">
+                        <div class="color-swatch-box" style="background-color: {{ color.hex }};"></div>
+                        <div class="color-swatch-meta">
+                            <div class="swatch-hex">{{ color.hex }}</div>
+                            <div class="swatch-pct">{{ color.percentage }}%</div>
+                            <div class="swatch-label">Coverage</div>
+                            <div class="swatch-family">{{ color.family }}</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cards Container -->
+                    <div class="color-cards">
+                        <!-- Card 1: Scientific Metrics -->
+                        <article class="color-card">
+                            <header class="color-card-header">
+                                <div class="color-card-icon">🔬</div>
+                                <h5 class="color-card-title">Scientific Metrics</h5>
+                            </header>
+                            <div class="color-card-body">
+                                <p>{{ color.text.scientific | replace("luminance", "<span class='color-keyword'>luminance</span>") | replace("temperature", "<span class='color-keyword'>temperature</span>") | replace("saturation", "<span class='color-keyword'>saturation</span>") | replace("WCAG", "<span class='color-keyword'>WCAG</span>") | replace("contrast", "<span class='color-keyword'>contrast</span>") | safe }}</p>
+                            </div>
+                        </article>
+                        
+                        <!-- Card 2: Marketing Psychology -->
+                        <article class="color-card">
+                            <header class="color-card-header">
+                                <div class="color-card-icon">🎨</div>
+                                <h5 class="color-card-title">Marketing Psychology</h5>
+                            </header>
+                            <div class="color-card-body">
+                                <p>{{ color.text.marketing | replace("trust", "<span class='color-keyword'>trust</span>") | replace("growth", "<span class='color-keyword'>growth</span>") | replace("urgency", "<span class='color-keyword'>urgency</span>") | replace("energy", "<span class='color-keyword'>energy</span>") | replace("calmness", "<span class='color-keyword'>calmness</span>") | replace("professionalism", "<span class='color-keyword'>professionalism</span>") | safe }}</p>
+                            </div>
+                        </article>
+                        
+                        <!-- Card 3: Cultural & Industry -->
+                        <article class="color-card">
+                            <header class="color-card-header">
+                                <div class="color-card-icon">🌍</div>
+                                <h5 class="color-card-title">Cultural & Industry</h5>
+                            </header>
+                            <div class="color-card-body">
+                                <p>{{ color.text.cultural | replace("Korea", "<span class='color-keyword'>Korea</span>") | replace("United States", "<span class='color-keyword'>United States</span>") | replace("Chinese", "<span class='color-keyword'>Chinese</span>") | replace("Japan", "<span class='color-keyword'>Japan</span>") | safe }}</p>
+                                <hr class="color-card-divider">
+                                <p style="font-size: 0.9rem;">{{ color.text.industry | replace("Finance", "<span class='color-keyword'>Finance</span>") | replace("Health", "<span class='color-keyword'>Health</span>") | replace("Food", "<span class='color-keyword'>Food</span>") | replace("Ecommerce", "<span class='color-keyword'>Ecommerce</span>") | replace("Medical", "<span class='color-keyword'>Medical</span>") | safe }}</p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+            
+            <!-- Synthesis Section -->
+            <div class="synthesis-box">
+                <h4 style="margin-top: 0; color: var(--primary);">Palette Synthesis & Recommendations</h4>
+                <p>{{ color_data.palette_summary }}</p>
+                
+                <div class="cta-recommendation">
+                    <div class="cta-preview" style="background-color: {{ color_data.cta_recommendation.recommended_color }};">
+                        Recommended CTA
+                    </div>
+                    <div>
+                        <div style="font-weight: 700; color: var(--text-main);">Optimal Call-to-Action Color: {{ color_data.cta_recommendation.recommended_color }}</div>
+                        <div style="font-size: 0.9rem; color: var(--text-muted);">{{ color_data.cta_recommendation.marketing.rationale }}</div>
+                        <div style="font-size: 0.85rem; color: var(--success); margin-top: 0.25rem;">
+                            ✓ WCAG {{ color_data.cta_recommendation.scientific.wcag_level }} Compliant (Contrast {{ color_data.cta_recommendation.scientific.contrast_ratio }}:1)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            {% endif %}
+            <div class="page-number">Page 4</div>
+        </div>
+
+        <!-- PAGE 5: UX HEURISTICS -->
+        <div class="page">
+            <div class="header-strip"></div>
+            <h2>UX Heuristics & Visual Flow</h2>
+            
+            <h3>Scanning Patterns (F-Pattern vs Z-Pattern)</h3>
+            <p>{{ ux_text.pattern_text }}</p>
+            
+            <h3>Visual Complexity Analysis</h3>
+            <p>{{ ux_text.complexity_text }}</p>
+            
+            <div class="insight-box">
+                <h4>Scientific Basis</h4>
+                <p>This analysis uses Rosenholtz's Feature Congestion model to estimate visual clutter. Lower complexity scores correlate with faster visual search times and reduced cognitive load.</p>
+            </div>
+            
+            <!-- UX Heuristics Extension: Nielsen's Usability Principles -->
+            {% if ux_heuristics_details %}
+            <h3 style="margin-top: 3rem;">Nielsen's Usability Heuristics Assessment</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Research-grade evaluation based on visual analysis metrics.</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                {% for heuristic in ux_heuristics_details %}
+                <div class="color-card" style="background: #ffffff; border: 1px solid #e2e8f0; padding: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h5 style="margin: 0; font-size: 0.85rem; font-weight: 700; color: #475569;">{{ heuristic.name }}</h5>
+                        <div style="background: {{ '#dcfce7' if heuristic.score >= 4 else ('#fef3c7' if heuristic.score == 3 else '#fee2e2') }}; 
+                                    color: {{ '#166534' if heuristic.score >= 4 else ('#92400e' if heuristic.score == 3 else '#991b1b') }}; 
+                                    padding: 0.25rem 0.75rem; border-radius: 9999px; font-weight: 700; font-size: 0.75rem;">
+                            {{ heuristic.score }}/5
+                        </div>
+                    </div>
+                    <p style="font-size: 0.9rem; margin-bottom: 0.75rem; color: #334155; line-height: 1.6;">
+                        <strong style="color: #1e293b;">Finding:</strong> {{ heuristic.finding }}
+                    </p>
+                    <p style="font-size: 0.85rem; margin: 0; color: #64748b; line-height: 1.5; border-left: 3px solid #cbd5e1; padding-left: 0.75rem;">
+                        <strong>→</strong> {{ heuristic.recommendation }}
+                    </p>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <!-- Added Gaze Path Efficiency (minimal addition, no rewrites) -->
+            {% if gaze_path_data %}
+            <h3 style="margin-top: 3rem;">Gaze Path Efficiency</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Measures the scanning distance required between attention hotspots.</p>
+            
+            <div class="color-card" style="background: #ffffff; border: 1px solid #e2e8f0; padding: 1.5rem; margin-top: 1rem;">
+                <div style="display: flex; align-items: center; gap: 2rem;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 3rem; font-weight: 800; color: {{ '#10b981' if gaze_path_data.score >= 70 else ('#f59e0b' if gaze_path_data.score >= 50 else '#ef4444') }};">
+                            {{ gaze_path_data.score }}
+                        </div>
+                        <div style="font-size: 0.75rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">
+                            Efficiency Score
+                        </div>
+                    </div>
+                    <div style="flex: 1;">
+                        <p style="font-size: 0.95rem; margin-bottom: 0.75rem; color: #334155; line-height: 1.6;">
+                            <strong style="color: #1e293b;">Analysis:</strong> {{ gaze_path_data.insight }}
+                        </p>
+                        <p style="font-size: 0.9rem; margin: 0; color: #64748b; line-height: 1.5; border-left: 3px solid #cbd5e1; padding-left: 0.75rem;">
+                            <strong>→</strong> {{ gaze_path_data.recommendation }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <div class="page-number">Page 5</div>
+        </div>
+
+        <!-- PAGE 6: STRATEGIC ACTION PLAN -->
+        <div class="page">
+            <div class="header-strip"></div>
+            <h2>Strategic Action Roadmap</h2>
+            <p>Based on the comprehensive analysis, here is your prioritized roadmap for improvement. Focus on High Priority items first to see the biggest impact on conversion.</p>
+            
+            {% for action in action_plan %}
+            <div class="action-item">
+                <div class="priority-badge p-{{ action.priority }}">
+                    <div style="font-size: 0.75rem; text-transform: uppercase; opacity: 0.9;">Priority</div>
+                    <div style="font-size: 1.25rem;">{{ action.priority }}</div>
+                </div>
+                <div>
+                    <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--text-main); font-size: 1.1rem;">{{ action.title }}</h4>
+                    <p style="margin: 0; color: var(--text-muted);">{{ action.desc }}</p>
+                </div>
+            </div>
+            {% endfor %}
+            
+            <div style="margin-top: 4rem; border-top: 1px solid #e2e8f0; padding-top: 2rem; font-size: 0.8rem; color: var(--text-muted);">
+                <strong>Methodology References:</strong><br>
+                1. Kümmerer, M. et al. (2016). DeepGaze IIE: Reading fixations from deep features.<br>
+                2. Rosenholtz, R. et al. (2007). Measuring visual clutter. Journal of Vision.<br>
+                3. Nielsen, J. (2006). F-Shaped Pattern For Reading Web Content.<br>
+                4. Miller, G. A. (1956). The magical number seven, plus or minus two.<br>
                 5. WCAG 2.1 Guidelines for Contrast and Accessibility.
             </div>
+            <div class="page-number">Page 6</div>
+        </div>
+
+        <!-- PAGE 6: AI INSIGHTS & GENERATIVE REDESIGN -->
+        <div class="page">
+            <div class="header-strip"></div>
+            <h2>AI-Powered Design Intelligence</h2>
+            <p>Leveraging Gemini 1.5 Pro & Nanobanana technology to deconstruct your UI and propose generative improvements.</p>
+            
+            <div class="insight-box" style="border-left-color: #8b5cf6; background: #f5f3ff;">
+                <h4 style="color: #7c3aed;">Generative Critique</h4>
+                <p>{{ redesign_suggestion.critique if redesign_suggestion else 'AI analysis unavailable. Please ensure API keys are configured.' }}</p>
+            </div>
+
+            <div class="comparison-container" style="margin-top: 2rem;">
+                <div class="img-box">
+                    <div class="img-label">Information Architecture (IA)</div>
+                    <div style="background: white; padding: 1.5rem; height: 100%; min-height: 300px; font-family: monospace; font-size: 0.85rem; overflow-y: auto;">
+                        {% if ia_structure %}
+                            <ul style="list-style-type: none; padding-left: 0;">
+                                <li><strong>{{ ia_structure.label }}</strong> ({{ ia_structure.type }})
+                                    {% if ia_structure.children %}
+                                    <ul style="padding-left: 1.5rem; border-left: 1px solid #e2e8f0;">
+                                        {% for child in ia_structure.children recursive %}
+                                            <li style="margin-top: 0.5rem;">
+                                                <span style="color: #64748b;">-</span> {{ child.label }} <span style="color: #94a3b8; font-size: 0.75rem;">({{ child.type }})</span>
+                                                {% if child.children %}
+                                                    <ul style="padding-left: 1.5rem; border-left: 1px solid #e2e8f0;">{{ loop(child.children) }}</ul>
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        {% else %}
+                            <p style="color: #94a3b8; text-align: center; margin-top: 2rem;">IA Structure extraction failed or unavailable.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="img-box">
+                    <div class="img-label">Proposed Redesign Strategy</div>
+                    <div style="background: white; padding: 1.5rem; height: 100%; min-height: 300px;">
+                        <h4 style="margin-top: 0; font-size: 1rem;">Suggested Improvements</h4>
+                        <p style="font-size: 0.9rem;">{{ redesign_suggestion.redesign_description if redesign_suggestion else 'N/A' }}</p>
+                        
+                        <h4 style="margin-top: 1.5rem; font-size: 1rem;">Image Gen Prompt</h4>
+                        <div style="background: #f1f5f9; padding: 0.75rem; border-radius: 6px; font-size: 0.75rem; color: #475569; font-family: monospace;">
+                            {{ redesign_suggestion.image_gen_prompt if redesign_suggestion else 'N/A' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="page-number">Page 6</div>
         </div>
 
     </body>
     </html>
     """
+    
+
     
     # Render Template
     t = Template(template_str)
@@ -977,10 +1265,16 @@ def generate_report(original_image_path, saliency_map_path, timestamp=None):
         ux_text=ux_text,
         ux_heuristics_details=ux_heuristics_details,
         gaze_path_data=gaze_path_data,
-        action_plan=action_plan
+        action_plan=action_plan,
+        ia_structure=ia_structure,
+        redesign_suggestion=redesign_suggestion,
+        marketing_consultation=marketing_consultation
     )
     
     with open(report_path, "w", encoding="utf-8") as f:
         f.write(html_content)
         
-    return report_path
+    return report_path, ia_structure, redesign_suggestion, marketing_consultation, {
+        "basic": metrics,
+        "advanced": adv_metrics
+    }

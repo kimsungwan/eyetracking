@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Structure Diagram</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .diagram-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 95%;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Backend Data Flow Architecture</h1>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TD
+    User[User Upload] -->|file| Main[main.py]
+    
+    subgraph "Core Pipeline"
+        Main -->|file_location| Saliency[saliency_model_enhanced.py]
+        Saliency -->|saliency_map_path| Main
+        
+        Main -->|file_location, saliency_map_path| ReportGen[report_generator.py]
+    end
+    
+    subgraph "Analysis Modules"
+        ReportGen -->|paths| Metrics[calculate_metrics]
+        ReportGen -->|paths| Color[color_psychology.py]
+        ReportGen -->|paths| Cognitive[cognitive_marketing.py]
+        ReportGen -->|paths| FeatureCongestion[feature_congestion.py]
+    end
+    
+    subgraph "AI & RAG Features"
+        ReportGen -->|paths| VisualInterp[visual_interpreter.py]
+        VisualInterp -->|visual_context| Consultant[consultant.py]
+        Consultant -->|query| Retriever[knowledge_retriever.py]
+        Retriever -->|knowledge_items| Consultant
+        Consultant -->|marketing_consultation| ReportGen
+        
+        ReportGen -->|paths| GenUI[generative_ui.py]
+        GenUI -->|ia_structure, redesign| ReportGen
+    end
+    
+    ReportGen -->|HTML Report| FileSystem[File System]
+    ReportGen -->|JSON Data| Main
+    
+    Main -->|Response JSON| Client[Frontend Client]
+        </div>
+    </div>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+</body>
+</html>

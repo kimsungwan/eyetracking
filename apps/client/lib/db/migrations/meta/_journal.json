@@ -15,6 +15,20 @@
       "when": 1767350804497,
       "tag": "0001_minor_hulk",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1767354031892,
+      "tag": "0002_curvy_madripoor",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1767603320494,
+      "tag": "0003_luxuriant_white_queen",
+      "breakpoints": true
     }
   ]
 }

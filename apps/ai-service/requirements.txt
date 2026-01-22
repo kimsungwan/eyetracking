@@ -10,3 +10,11 @@ jinja2
 scipy
 scikit-learn
 requests
+google-generativeai
+chromadb
+langchain
+langchain-community
+langchain-huggingface
+sentence-transformers
+selenium
+webdriver-manager

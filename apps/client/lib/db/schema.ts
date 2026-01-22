@@ -5,6 +5,7 @@ import {
   text,
   timestamp,
   integer,
+  json,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
@@ -136,6 +137,10 @@ export const analyses = pgTable("analyses", {
   originalImage: text("original_image").notNull(),
   saliencyMap: text("saliency_map").notNull(),
   report: text("report").notNull(),
+  iaStructure: json("ia_structure"),
+  redesignSuggestion: json("redesign_suggestion"),
+  marketingConsultation: json("marketing_consultation"),
+  metrics: json("metrics"), // NEW: Stores ACS, VCI, CLE scores
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 

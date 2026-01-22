@@ -1,3 +1,5 @@
+"use client";
+
 import {
     Card,
     CardContent,
@@ -16,84 +18,88 @@ import {
     TabsList,
     TabsTrigger,
 } from "@saas/ui";
-import { Eye, FileText, Users, TrendingUp } from "lucide-react";
+import { Eye, Zap, Layers, Brain } from "lucide-react";
+import Link from "next/link";
+import { useReports, AnalysisReport } from "@/lib/hooks/useReports";
 
-export default async function AdminDashboardPage({
-    params,
-}: {
-    params: Promise<{ lng: string }>;
-}) {
-    const { lng } = await params;
+export default function AdminDashboardPage() {
+    const { reports, isLoading: loading } = useReports();
 
-    // Mock data for dashboard
-    const stats = [
+    // Get the latest report with metrics
+    const latestReport = reports.length > 0 ? reports[0] : null;
+    const latestMetrics = latestReport?.metrics;
+
+    // Helper function to get score color
+    const getScoreColor = (score: number, inverse: boolean = false) => {
+        if (inverse) {
+            // Lower is better (like VCI, CLE)
+            if (score <= 30) return "text-green-500";
+            if (score <= 60) return "text-yellow-500";
+            return "text-red-500";
+        }
+        // Higher is better (like ACS)
+        if (score >= 70) return "text-green-500";
+        if (score >= 40) return "text-yellow-500";
+        return "text-red-500";
+    };
+
+    const getScoreLabel = (score: number, inverse: boolean = false) => {
+        if (inverse) {
+            if (score <= 30) return "매우 좋음";
+            if (score <= 60) return "보통";
+            return "개선 필요";
+        }
+        if (score >= 70) return "매우 좋음";
+        if (score >= 40) return "보통";
+        return "개선 필요";
+    };
+
+    const statsCards = [
         {
-            title: "Total Analyses",
-            value: "1,234",
-            change: "+12%",
+            title: "총 분석 횟수",
+            value: reports.length.toString(),
+            description: latestReport
+                ? `최근: ${new Date(latestReport.createdAt).toLocaleDateString('ko-KR')}`
+                : "분석을 시작해보세요",
             icon: Eye,
             color: "text-blue-500",
         },
         {
-            title: "Reports Generated",
-            value: "856",
-            change: "+8%",
-            icon: FileText,
-            color: "text-green-500",
+            title: "주의 집중 점수 (ACS)",
+            value: latestMetrics?.advanced?.acs?.toFixed(1) || "—",
+            description: latestMetrics?.advanced?.acs
+                ? getScoreLabel(latestMetrics.advanced.acs)
+                : "사용자가 디자인에 집중하는 정도",
+            icon: Zap,
+            color: latestMetrics?.advanced?.acs
+                ? getScoreColor(latestMetrics.advanced.acs)
+                : "text-orange-500",
         },
         {
-            title: "Active Users",
-            value: "342",
-            change: "+23%",
-            icon: Users,
-            color: "text-purple-500",
+            title: "시각 복잡도 (VCI)",
+            value: latestMetrics?.advanced?.vci?.toFixed(1) || "—",
+            description: latestMetrics?.advanced?.vci
+                ? getScoreLabel(latestMetrics.advanced.vci, true)
+                : "디자인의 시각적 혼잡도 (낮을수록 좋음)",
+            icon: Layers,
+            color: latestMetrics?.advanced?.vci
+                ? getScoreColor(latestMetrics.advanced.vci, true)
+                : "text-purple-500",
         },
         {
-            title: "Conversion Rate",
-            value: "4.2%",
-            change: "+2.1%",
-            icon: TrendingUp,
-            color: "text-orange-500",
+            title: "인지 부하 (CLE)",
+            value: latestMetrics?.advanced?.cle?.toFixed(1) || "—",
+            description: latestMetrics?.advanced?.cle
+                ? getScoreLabel(latestMetrics.advanced.cle, true)
+                : "사용자가 느끼는 인지적 부담 (낮을수록 좋음)",
+            icon: Brain,
+            color: latestMetrics?.advanced?.cle
+                ? getScoreColor(latestMetrics.advanced.cle, true)
+                : "text-indigo-500",
         },
     ];
 
-    const recentAnalyses = [
-        {
-            id: 1,
-            filename: "homepage-redesign.png",
-            date: "2026-01-02",
-            status: "completed",
-            score: 85,
-        },
-        {
-            id: 2,
-            filename: "landing-page-v2.jpg",
-            date: "2026-01-02",
-            status: "completed",
-            score: 72,
-        },
-        {
-            id: 3,
-            filename: "checkout-flow.png",
-            date: "2026-01-01",
-            status: "processing",
-            score: null,
-        },
-        {
-            id: 4,
-            filename: "mobile-app-screen.png",
-            date: "2026-01-01",
-            status: "completed",
-            score: 91,
-        },
-        {
-            id: 5,
-            filename: "dashboard-ui.jpg",
-            date: "2025-12-31",
-            status: "completed",
-            score: 68,
-        },
-    ];
+    const recentAnalyses = reports.slice(0, 5);
 
     return (
         <div className="space-y-8">
@@ -101,131 +107,186 @@ export default async function AdminDashboardPage({
             <div>
                 <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
                 <p className="text-muted-foreground">
-                    Welcome back! Here's an overview of your UX analysis activity.
+                    {latestReport
+                        ? "최신 분석 결과를 한눈에 확인하세요."
+                        : "Welcome back! Start your first analysis to see metrics here."}
                 </p>
             </div>
 
             {/* Stats Cards */}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                {stats.map((stat) => (
-                    <Card key={stat.title}>
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
-                            <stat.icon className={`h-4 w-4 ${stat.color}`} />
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-2xl font-bold">{stat.value}</div>
-                            <p className="text-xs text-muted-foreground">
-                                <span className="text-green-500">{stat.change}</span> from last
-                                month
-                            </p>
-                        </CardContent>
-                    </Card>
-                ))}
+                {loading ? (
+                    Array.from({ length: 4 }).map((_, i) => (
+                        <Card key={i}>
+                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                <div className="h-4 w-24 bg-muted animate-pulse rounded" />
+                            </CardHeader>
+                            <CardContent>
+                                <div className="h-8 w-16 bg-muted animate-pulse rounded mb-2" />
+                                <div className="h-3 w-32 bg-muted animate-pulse rounded" />
+                            </CardContent>
+                        </Card>
+                    ))
+                ) : (
+                    statsCards.map((stat) => (
+                        <Card key={stat.title}>
+                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
+                                <stat.icon className={`h-4 w-4 ${stat.color}`} />
+                            </CardHeader>
+                            <CardContent>
+                                <div className={`text-2xl font-bold ${stat.color}`}>{stat.value}</div>
+                                <p className="text-xs text-muted-foreground">
+                                    {stat.description}
+                                </p>
+                            </CardContent>
+                        </Card>
+                    ))
+                )}
             </div>
 
+            {/* Notice for new users */}
+            {!loading && reports.length === 0 && (
+                <Card className="border-dashed border-2 bg-muted/30">
+                    <CardContent className="flex flex-col items-center justify-center py-10">
+                        <Eye className="h-12 w-12 text-muted-foreground mb-4" />
+                        <h3 className="text-lg font-semibold mb-2">아직 분석된 레포트가 없습니다</h3>
+                        <p className="text-muted-foreground text-center mb-4">
+                            첫 번째 분석을 시작하여 UX 메트릭을 확인해보세요.
+                        </p>
+                        <Link
+                            href="/analyze"
+                            className="bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90"
+                        >
+                            분석 시작하기 →
+                        </Link>
+                    </CardContent>
+                </Card>
+            )}
+
             {/* Tabs Section */}
-            <Tabs defaultValue="recent" className="space-y-4">
-                <TabsList>
-                    <TabsTrigger value="recent">Recent Analyses</TabsTrigger>
-                    <TabsTrigger value="popular">Top Performing</TabsTrigger>
-                    <TabsTrigger value="pending">Pending</TabsTrigger>
-                </TabsList>
+            {reports.length > 0 && (
+                <Tabs defaultValue="recent" className="space-y-4">
+                    <TabsList>
+                        <TabsTrigger value="recent">Recent Analyses</TabsTrigger>
+                        <TabsTrigger value="insights">Latest Insights</TabsTrigger>
+                    </TabsList>
 
-                <TabsContent value="recent">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Recent Analyses</CardTitle>
-                            <CardDescription>
-                                Your latest UX analysis submissions and their results.
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Filename</TableHead>
-                                        <TableHead>Date</TableHead>
-                                        <TableHead>Status</TableHead>
-                                        <TableHead className="text-right">Score</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {recentAnalyses.map((analysis) => (
-                                        <TableRow key={analysis.id}>
-                                            <TableCell className="font-medium">
-                                                {analysis.filename}
-                                            </TableCell>
-                                            <TableCell>{analysis.date}</TableCell>
-                                            <TableCell>
-                                                <Badge
-                                                    variant={
-                                                        analysis.status === "completed"
-                                                            ? "success"
-                                                            : "warning"
-                                                    }
-                                                >
-                                                    {analysis.status}
-                                                </Badge>
-                                            </TableCell>
-                                            <TableCell className="text-right">
-                                                {analysis.score !== null ? (
-                                                    <span
-                                                        className={
-                                                            analysis.score >= 80
-                                                                ? "text-green-500"
-                                                                : analysis.score >= 60
-                                                                    ? "text-yellow-500"
-                                                                    : "text-red-500"
-                                                        }
-                                                    >
-                                                        {analysis.score}
-                                                    </span>
-                                                ) : (
-                                                    <span className="text-muted-foreground">—</span>
-                                                )}
-                                            </TableCell>
+                    <TabsContent value="recent">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>최근 분석</CardTitle>
+                                <CardDescription>
+                                    최근 완료된 UX 분석 목록입니다.
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>ID</TableHead>
+                                            <TableHead>이미지</TableHead>
+                                            <TableHead>날짜</TableHead>
+                                            <TableHead>ACS</TableHead>
+                                            <TableHead>VCI</TableHead>
+                                            <TableHead className="text-right">액션</TableHead>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </CardContent>
-                    </Card>
-                </TabsContent>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {recentAnalyses.map((analysis) => (
+                                            <TableRow key={analysis.id}>
+                                                <TableCell className="font-medium">
+                                                    #{analysis.id}
+                                                </TableCell>
+                                                <TableCell>
+                                                    <img
+                                                        src={analysis.originalImage}
+                                                        alt="Thumbnail"
+                                                        className="h-10 w-10 object-cover rounded border"
+                                                    />
+                                                </TableCell>
+                                                <TableCell>
+                                                    {new Date(analysis.createdAt).toLocaleDateString('ko-KR')}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {analysis.metrics?.advanced?.acs ? (
+                                                        <span className={getScoreColor(analysis.metrics.advanced.acs)}>
+                                                            {analysis.metrics.advanced.acs.toFixed(1)}
+                                                        </span>
+                                                    ) : (
+                                                        <span className="text-muted-foreground">—</span>
+                                                    )}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {analysis.metrics?.advanced?.vci ? (
+                                                        <span className={getScoreColor(analysis.metrics.advanced.vci, true)}>
+                                                            {analysis.metrics.advanced.vci.toFixed(1)}
+                                                        </span>
+                                                    ) : (
+                                                        <span className="text-muted-foreground">—</span>
+                                                    )}
+                                                </TableCell>
+                                                <TableCell className="text-right">
+                                                    <Link
+                                                        href={`/admin/reports?id=${analysis.id}`}
+                                                        className="text-blue-500 hover:underline text-sm"
+                                                    >
+                                                        View →
+                                                    </Link>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
 
-                <TabsContent value="popular">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Top Performing</CardTitle>
-                            <CardDescription>
-                                Analyses with the highest attention scores.
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-muted-foreground">
-                                No data available yet. Start analyzing to see your top
-                                performers!
-                            </p>
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-
-                <TabsContent value="pending">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Pending Analyses</CardTitle>
-                            <CardDescription>
-                                Analyses currently being processed.
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-muted-foreground">
-                                No pending analyses at the moment.
-                            </p>
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-            </Tabs>
+                    <TabsContent value="insights">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>최신 AI 인사이트</CardTitle>
+                                <CardDescription>
+                                    가장 최근 분석의 마케팅 AI 컨설턴트 결과입니다.
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                {!latestReport?.marketingConsultation || (latestReport.marketingConsultation as any).error ? (
+                                    <p className="text-muted-foreground">
+                                        AI 인사이트가 있는 분석이 없습니다.{" "}
+                                        <Link href="/analyze" className="text-blue-500 hover:underline">
+                                            분석 시작하기
+                                        </Link>
+                                    </p>
+                                ) : (
+                                    <div className="space-y-4">
+                                        <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-100">
+                                            <h4 className="font-semibold text-indigo-900 mb-2">진단 (Diagnosis)</h4>
+                                            <p className="text-sm text-slate-700">
+                                                {(latestReport.marketingConsultation as any).diagnosis}
+                                            </p>
+                                        </div>
+                                        <div className="bg-red-50 p-4 rounded-lg border border-red-100">
+                                            <h4 className="font-semibold text-red-900 mb-2">비평 (Critique)</h4>
+                                            <p className="text-sm text-slate-700">
+                                                {(latestReport.marketingConsultation as any).critique}
+                                            </p>
+                                        </div>
+                                        <div className="flex justify-end">
+                                            <Link
+                                                href={`/admin/reports?id=${latestReport.id}`}
+                                                className="text-blue-500 hover:underline text-sm"
+                                            >
+                                                전체 레포트 보기 →
+                                            </Link>
+                                        </div>
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+                </Tabs>
+            )}
         </div>
     );
 }
